@@ -1,0 +1,29 @@
+2023/08/23(V2.2)
+1.完成局部结构体未初始化问题。
+
+2023/6/27（V2.1)
+1.修改can回调函数，因为shcan中用到了HAL的can接收回调函数，如果在其他地方也使用的话，产生冲突
+所以改为使用HAL CAN 的寄存器中断回调函数指针，进行回调函数的注册。
+can_open_Pin函数中添加：
+HAL_CAN_RegisterCallback(&obj,HAL_CAN_RX_FIFO0_MSG_PENDING_CB_ID,HAL_CAN_Register_RxFifo0MsgPendingCallback);
+
+
+2023/05/19
+1.增加SH_config函数。可以配置使用哪些中断，日志系统，freetos是否使用等配置。
+2.优化DELAY.H函数中关于freertos的使用定义问题
+3.精简头文件。
+4.增加shRTC功能
+5.修改modbus定时器为freertos软定时器。修改freertos默认定时器优先级。
+6.增加IAP相关函数。
+7.优化其他已知bug。
+
+2022-12-08
+优化读回调函数增加，char data数据。
+typedef void(*USART_CallbackFunction_t)(void); ->
+typedef void(*USART_CallbackFunction_t)(char);
+
+2022-03-02
+修改shTimer.h 和 shTimer.c文件
+之前将定时器结构放到了h文件里。
+删除h文件里的h TIM_HandleTypeDef htim1-htim14;
+同时将c文件中的htim1-htim14;改为静态变量
